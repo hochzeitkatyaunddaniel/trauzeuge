@@ -77,7 +77,7 @@
 
         #btn-nein {
             position: relative;
-            transition: transform 0.08s ease-out; /* Lässt den Button geschmeidig wegspringen */
+            transition: transform 0.12s ease-out; /* Flüssige, aber dynamische Bewegung */
         }
 
         /* Modal nach erfolgreicher Bestätigung */
@@ -121,7 +121,7 @@
 
     <div class="poster-wrapper">
         <!-- Das finale Poster -->
-        <img src="poster.jpg" alt="Wirst du mein Trauzeuge?" class="poster-img">
+        <img src="poster.jfif" alt="Wirst du mein Trauzeuge?" class="poster-img">
 
         <!-- Die Antwortmöglichkeiten -->
         <div class="overlay-buttons">
@@ -141,14 +141,17 @@
         function moveButton(e) {
             if (e) e.preventDefault();
 
-            // Kontrollierter kleiner Radius direkt um die Ursprungsposition herum
-            const randomX = (Math.random() - 0.5) * 240; // max. 120px nach links/rechts
-            const randomY = (Math.random() - 0.5) * 120; // max. 60px nach oben/unten
+            let randomX, randomY;
+            // Erzwingt einen Mindestabstand, damit der Button niemals direkt neben oder unter dem Cursor landet
+            do {
+                randomX = (Math.random() - 0.5) * 340; // Größerer horizontaler Radius
+                randomY = (Math.random() - 0.5) * 200; // Größerer vertikaler Radius
+            } while (Math.abs(randomX) < 110 && Math.abs(randomY) < 70);
 
             neinBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
-        // Lauscht zuverlässig auf Mauszeiger (PC) und Touch-Gesten (Smartphone)
+        // Lauscht auf Mauszeiger (PC) und Touch-Gesten (Smartphone)
         neinBtn.addEventListener('mouseenter', moveButton);
         neinBtn.addEventListener('touchstart', moveButton, { passive: false });
         neinBtn.addEventListener('click', moveButton);
