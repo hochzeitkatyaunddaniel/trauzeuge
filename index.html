@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
 
         body {
-            background-color: #080808;
+            background-color: #0b0b0b;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -17,6 +17,7 @@
             min-height: 100vh;
             box-sizing: border-box;
             font-family: 'Cinzel', 'Times New Roman', serif;
+            overflow-x: hidden;
         }
 
         .poster-wrapper {
@@ -24,7 +25,7 @@
             max-width: 600px;
             width: 100%;
             border: 3px solid #d4af37;
-            box-shadow: 0 0 35px rgba(212, 175, 55, 0.35);
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.4);
             background-color: #111;
         }
 
@@ -34,13 +35,13 @@
             display: block;
         }
 
-        /* Overlay für die interaktiven Knöpfe genau auf dem Poster */
+        /* Die interaktiven Buttons, positioniert im erweiterten schwarzen Bereich unter der Frage */
         .overlay-buttons {
             position: absolute;
-            bottom: 12%; /* Platzierung exakt im freien dunklen Bereich */
+            bottom: 8%; /* Platziert sie exakt in den neuen schwarzen Bereich */
             left: 50%;
             transform: translateX(-50%);
-            width: 85%;
+            width: 80%;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -49,10 +50,10 @@
         }
 
         .btn-option {
-            background: rgba(15, 15, 15, 0.9);
+            background: rgba(18, 18, 18, 0.95);
             color: #d4af37;
-            border: 1.5px solid #d4af37;
-            padding: 10px 20px;
+            border: 2px solid #d4af37;
+            padding: 12px 20px;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
@@ -62,16 +63,17 @@
             max-width: 380px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
             font-family: 'Cinzel', 'Times New Roman', serif;
-            transition: background 0.2s, color 0.2s, transform 0.1s;
+            transition: background 0.2s, color 0.2s;
+            text-align: center;
         }
 
         .btn-option:hover {
             background: #d4af37;
-            color: #0a0a0a;
+            color: #111111;
         }
 
         #btn-nein {
-            transition: all 0.12s ease-out;
+            transition: all 0.1s ease-out;
         }
 
         /* Modal nach erfolgreicher Bestätigung */
@@ -98,6 +100,7 @@
             margin-bottom: 20px;
             letter-spacing: 2px;
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            text-transform: uppercase;
         }
 
         #success-modal p {
@@ -111,10 +114,10 @@
 <body>
 
     <div class="poster-wrapper">
-        <!-- Das erstelle Poster-Bild -->
-        <img src="IMG_1185.jfif" alt="Der Pate - Wirst du mein Trauzeuge?" class="poster-img">
+        <!-- Das finale Poster mit erweitertem schwarzem Bereich -->
+        <img src="poster.jfif" alt="Wirst du mein Trauzeuge?" class="poster-img">
 
-        <!-- Interaktive Buttons auf der dafür reservierten Fläche -->
+        <!-- Die Antwortmöglichkeiten als dynamische Buttons -->
         <div class="overlay-buttons">
             <button class="btn-option" id="btn-ja" onclick="showAccept()">☐ JA, ICH AKZEPTIERE</button>
             <button class="btn-option" id="btn-nein" onmouseover="escapeButton()" ontouchstart="escapeButton()" onclick="escapeButton()">☐ ICH WÄHLE DIE SCHANDE (NEIN)</button>
@@ -122,15 +125,15 @@
     </div>
 
     <div id="success-modal">
-        <h2>DIE FAMILIE DANKT DIR.</h2>
-        <p>Eine Entscheidung voller Ehre. Der Bund ist besiegelt! 🥃🎩</p>
+        <h2>Die Familie dankt dir.</h2>
+        <p>Ein Angebot, das er nicht ablehnen konnte. Der Bund für die Ewigkeit ist besiegelt! 🥃🎩</p>
     </div>
 
     <script>
         const neinBtn = document.getElementById('btn-nein');
 
         function escapeButton() {
-            const margin = 50;
+            const margin = 40;
             const maxX = window.innerWidth - neinBtn.offsetWidth - margin;
             const maxY = window.innerHeight - neinBtn.offsetHeight - margin;
 
@@ -140,7 +143,7 @@
             neinBtn.style.position = 'fixed';
             neinBtn.style.left = randomX + 'px';
             neinBtn.style.top = randomY + 'px';
-            neinBtn.style.zIndex = '999';
+            neinBtn.style.zIndex = '9999';
         }
 
         function showAccept() {
