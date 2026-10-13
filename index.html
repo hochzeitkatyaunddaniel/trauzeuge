@@ -42,11 +42,12 @@
         .interaction-area {
             margin-top: 25px;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            justify-content: center;
             align-items: center;
+            gap: 30px;
             position: relative;
-            min-height: 120px;
+            min-height: 80px;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -110,7 +111,7 @@
 <body>
 
     <div class="poster-container">
-        <!-- Das Bild, das als Plakat dient -->
+        <!-- Das bereinigte Bild als Plakat -->
         <img src="IMG_1185.JPG" alt="Der Pate - Trauzeuge Anfrage">
         
         <div class="interaction-area" id="interactionArea">
@@ -128,7 +129,7 @@
         const neinBtn = document.getElementById('btn-nein');
 
         function moveButton() {
-            // Lässt den Nein-Button zufällig auf dem Bildschirm wegspringen
+            // Lässt den Nein-Button zufällig auf dem Bildschirm wegspringen (auch auf Smartphones per Touch)
             const maxX = window.innerWidth - neinBtn.offsetWidth - 40;
             const maxY = window.innerHeight - neinBtn.offsetHeight - 40;
             
@@ -138,7 +139,7 @@
             neinBtn.style.position = 'fixed';
             neinBtn.style.left = randomX + 'px';
             neinBtn.style.top = randomY + 'px';
-            neinBtn.style.zIndex = '50';
+            neinBtn.style.zIndex = '101';
         }
 
         function accepted() {
