@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ein Angebot, das du nicht ablehnen kannst</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+        /* Einbindung der passenden Plakat-Schriftart im Godfather-Stil */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@700;900&display=swap');
 
         body {
             background-color: #0b0b0b;
@@ -41,10 +42,10 @@
             bottom: 8%; 
             left: 50%;
             transform: translateX(-50%);
-            width: 80%;
+            width: 85%;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             align-items: center;
             z-index: 10;
         }
@@ -54,16 +55,16 @@
             color: #d4af37;
             border: 2px solid #d4af37;
             padding: 12px 20px;
-            font-size: 1rem;
-            font-weight: 700;
+            font-size: 1.05rem;
+            font-weight: 900;
             cursor: pointer;
             letter-spacing: 2px;
             text-transform: uppercase;
             width: 100%;
             max-width: 380px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
-            font-family: 'Cinzel', 'Times New Roman', serif;
-            transition: background 0.2s, color 0.2s;
+            /* Exakte, wuchtige Plakat-Schriftart */
+            font-family: 'Cinzel Decorative', 'Cinzel', 'Times New Roman', serif;
             text-align: center;
             user-select: none;
             -webkit-user-select: none;
@@ -75,7 +76,8 @@
         }
 
         #btn-nein {
-            transition: all 0.08s ease-out;
+            position: relative;
+            transition: transform 0.08s ease-out; /* Lässt den Button geschmeidig wegspringen */
         }
 
         /* Modal nach erfolgreicher Bestätigung */
@@ -101,6 +103,7 @@
             color: #d4af37;
             margin-bottom: 20px;
             letter-spacing: 2px;
+            font-family: 'Cinzel Decorative', 'Cinzel', serif;
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
             text-transform: uppercase;
         }
@@ -110,7 +113,7 @@
             color: #f0f0f0;
             max-width: 550px;
             line-height: 1.6;
-            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-family: 'Cinzel', serif;
         }
     </style>
 </head>
@@ -118,7 +121,7 @@
 
     <div class="poster-wrapper">
         <!-- Das finale Poster -->
-        <img src="poster.jfif" alt="Wirst du mein Trauzeuge?" class="poster-img">
+        <img src="poster.jpg" alt="Wirst du mein Trauzeuge?" class="poster-img">
 
         <!-- Die Antwortmöglichkeiten -->
         <div class="overlay-buttons">
@@ -138,41 +141,15 @@
         function moveButton(e) {
             if (e) e.preventDefault();
 
-            // Beim ersten Auslösen fixieren wir die aktuelle Position im Viewport
-            if (neinBtn.style.position !== 'fixed') {
-                const rect = neinBtn.getBoundingClientRect();
-                neinBtn.style.position = 'fixed';
-                neinBtn.style.left = rect.left + 'px';
-                neinBtn.style.top = rect.top + 'px';
-                neinBtn.style.width = rect.width + 'px';
-            }
+            // Kontrollierter kleiner Radius direkt um die Ursprungsposition herum
+            const randomX = (Math.random() - 0.5) * 240; // max. 120px nach links/rechts
+            const randomY = (Math.random() - 0.5) * 120; // max. 60px nach oben/unten
 
-            const rect = neinBtn.getBoundingClientRect();
-            const currentX = rect.left;
-            const currentY = rect.top;
-
-            // Kontrollierter Radius: Springt lokal um die aktuelle Position herum (nicht quer über den Bildschirm)
-            const offsetX = (Math.random() - 0.5) * 220; // Maximal ca. 110px nach links/rechts
-            const offsetY = (Math.random() - 0.5) * 160; // Maximal ca. 80px nach oben/unten
-
-            let newX = currentX + offsetX;
-            let newY = currentY + offsetY;
-
-            // Sicherheitsbegrenzung, damit er im sichtbaren Bereich bleibt
-            const padding = 20;
-            const maxX = window.innerWidth - neinBtn.offsetWidth - padding;
-            const maxY = window.innerHeight - neinBtn.offsetHeight - padding;
-
-            newX = Math.max(padding, Math.min(newX, maxX));
-            newY = Math.max(padding, Math.min(newY, maxY));
-
-            neinBtn.style.left = newX + 'px';
-            neinBtn.style.top = newY + 'px';
-            neinBtn.style.zIndex = '99999';
+            neinBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
-        // Unterstützt sowohl Maus (PC) als auch Touch-Gesten (Smartphones)
-        neinBtn.addEventListener('mouseover', moveButton);
+        // Lauscht zuverlässig auf Mauszeiger (PC) und Touch-Gesten (Smartphone)
+        neinBtn.addEventListener('mouseenter', moveButton);
         neinBtn.addEventListener('touchstart', moveButton, { passive: false });
         neinBtn.addEventListener('click', moveButton);
 
