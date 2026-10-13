@@ -6,77 +6,62 @@
     <title>Ein Angebot, das du nicht ablehnen kannst</title>
     <style>
         body {
-            background-color: #111111;
-            color: #d4af37; /* Edles Gold */
+            background-color: #0b0b0b;
+            color: #d4af37;
             font-family: 'Times New Roman', Times, serif, sans-serif;
             text-align: center;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
 
-        .container {
-            max-width: 800px;
-            padding: 20px;
+        .poster-container {
+            max-width: 650px;
+            width: 100%;
+            background-color: #111;
+            border: 3px solid #d4af37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            padding: 15px;
             box-sizing: border-box;
             position: relative;
-            z-index: 2;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        h2 {
-            font-size: 2rem;
-            letter-spacing: 1px;
-            margin-bottom: 40px;
-            color: #f3e5ab;
-        }
-
-        .image-container {
-            margin-bottom: 30px;
-        }
-
-        .image-container img {
-            max-width: 100%;
+        .poster-container img {
+            width: 100%;
             height: auto;
-            max-height: 400px;
-            border: 2px solid #d4af37;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            display: block;
+            border: 1px solid #333;
         }
 
-        .button-group {
-            position: relative;
-            height: 100px;
+        .interaction-area {
+            margin-top: 25px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
             align-items: center;
-            gap: 40px;
-            margin-top: 20px;
+            position: relative;
+            min-height: 120px;
         }
 
         .btn {
             background-color: #1a1a1a;
             color: #d4af37;
             border: 2px solid #d4af37;
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: background-color 0.3s, color 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+            transition: background-color 0.2s, color 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.7);
+            font-family: 'Times New Roman', Times, serif, sans-serif;
         }
 
         .btn:hover {
@@ -85,11 +70,11 @@
         }
 
         #btn-nein {
-            position: absolute;
-            transition: all 0.1s ease;
+            position: relative;
+            transition: all 0.1s ease-out;
         }
 
-        /* Modal / Erfolgsnachricht */
+        /* Modal / Erfolgsnachricht im Mafia-Stil */
         #success-message {
             display: none;
             position: fixed;
@@ -98,21 +83,24 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.95);
-            z-index: 10;
+            z-index: 100;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         #success-message h2 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             color: #d4af37;
-            text-shadow: 0 0 10px #d4af37;
-            margin-bottom: 20px;
+            text-shadow: 0 0 15px #d4af37;
+            margin-bottom: 15px;
+            text-transform: uppercase;
         }
 
         #success-message p {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: #ffffff;
             max-width: 600px;
             line-height: 1.6;
@@ -121,34 +109,28 @@
 </head>
 <body>
 
-    <div class="container" id="main-content">
-        <h1>Ein Angebot, das du nicht ablehnen kannst.</h1>
-        <h2>Wirst du mein Trauzeuge?</h2>
-
-        <!-- Falls du das Bild direkt online hosten oder einbinden willst, kannst du hier die URL anpassen -->
-        <div class="image-container">
-            <img src="IMG_1185.JPG" alt="Der Pate - Trauzeuge Anfrage">
-        </div>
-
-        <div class="button-group" id="button-group">
+    <div class="poster-container">
+        <!-- Das Bild, das als Plakat dient -->
+        <img src="IMG_1185.JPG" alt="Der Pate - Trauzeuge Anfrage">
+        
+        <div class="interaction-area" id="interactionArea">
             <button class="btn" id="btn-ja" onclick="accepted()">☐ Ja, ich akzeptiere</button>
-            <button class="btn" id="btn-nein" onmouseover="moveButton()" onclick="moveButton()">☐ Ich wähle die Schande (Nein)</button>
+            <button class="btn" id="btn-nein" onmouseover="moveButton()" ontouchstart="moveButton()" onclick="moveButton()">☐ Ich wähle die Schande (Nein)</button>
         </div>
     </div>
 
     <div id="success-message">
         <h2>Die Familie dankt dir.</h2>
-        <p>Du hast das richtige Angebot gewählt. Der Deal besiegelt den Bund fürs Leben! 🥃</p>
+        <p>Ein Angebot, das er offensichtlich nicht ablehnen konnte. Der Bund fürs Leben ist besiegelt! 🥃🎩</p>
     </div>
 
     <script>
         const neinBtn = document.getElementById('btn-nein');
-        const buttonGroup = document.getElementById('button-group');
 
         function moveButton() {
-            // Berechne zufällige Positionen innerhalb des sichtbaren Bereichs oder des Containers
-            const maxX = window.innerWidth - neinBtn.offsetWidth - 50;
-            const maxY = window.innerHeight - neinBtn.offsetHeight - 50;
+            // Lässt den Nein-Button zufällig auf dem Bildschirm wegspringen
+            const maxX = window.innerWidth - neinBtn.offsetWidth - 40;
+            const maxY = window.innerHeight - neinBtn.offsetHeight - 40;
             
             const randomX = Math.max(20, Math.floor(Math.random() * maxX));
             const randomY = Math.max(20, Math.floor(Math.random() * maxY));
@@ -156,6 +138,7 @@
             neinBtn.style.position = 'fixed';
             neinBtn.style.left = randomX + 'px';
             neinBtn.style.top = randomY + 'px';
+            neinBtn.style.zIndex = '50';
         }
 
         function accepted() {
