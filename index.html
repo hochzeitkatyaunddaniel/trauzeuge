@@ -17,7 +17,7 @@
             min-height: 100vh;
             box-sizing: border-box;
             font-family: 'Cinzel', 'Times New Roman', serif;
-            overflow: hidden; /* Verhindert Scrollbalken beim Springen */
+            overflow: hidden;
         }
 
         .poster-wrapper {
@@ -35,7 +35,7 @@
             display: block;
         }
 
-        /* Die interaktiven Buttons, positioniert im erweiterten schwarzen Bereich */
+        /* Die interaktiven Buttons im exakten Plakat-Stil */
         .overlay-buttons {
             position: absolute;
             bottom: 8%; 
@@ -50,14 +50,14 @@
         }
 
         .btn-option {
-            background: rgba(18, 18, 18, 0.95);
+            background: rgba(15, 15, 15, 0.95);
             color: #d4af37;
             border: 2px solid #d4af37;
             padding: 12px 20px;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             width: 100%;
             max-width: 380px;
@@ -75,8 +75,7 @@
         }
 
         #btn-nein {
-            /* Wird dynamisch per JS gesteuert, sobald die Flucht beginnt */
-            transition: none; 
+            transition: all 0.08s ease-out;
         }
 
         /* Modal nach erfolgreicher Bestätigung */
@@ -111,16 +110,17 @@
             color: #f0f0f0;
             max-width: 550px;
             line-height: 1.6;
+            font-family: 'Cinzel', 'Times New Roman', serif;
         }
     </style>
 </head>
 <body>
 
     <div class="poster-wrapper">
-        <!-- Das finale Poster mit erweitertem schwarzem Bereich -->
+        <!-- Das finale Poster -->
         <img src="poster.jfif" alt="Wirst du mein Trauzeuge?" class="poster-img">
 
-        <!-- Die Antwortmöglichkeiten als dynamische Buttons -->
+        <!-- Die Antwortmöglichkeiten -->
         <div class="overlay-buttons">
             <button class="btn-option" id="btn-ja" onclick="showAccept()">☐ JA, ICH AKZEPTIERE</button>
             <button class="btn-option" id="btn-nein">☐ ICH WÄHLE DIE SCHANDE (NEIN)</button>
@@ -136,9 +136,9 @@
         const neinBtn = document.getElementById('btn-nein');
 
         function moveButton(e) {
-            if (e) e.preventDefault(); // Verhindert Standard-Klicks/Taps auf dem Nein-Button
+            if (e) e.preventDefault();
 
-            // Wenn der Button noch im normalen Layout war, fixieren wir seine anfängliche Größe und Position
+            // Beim ersten Auslösen fixieren wir die aktuelle Position im Viewport
             if (neinBtn.style.position !== 'fixed') {
                 const rect = neinBtn.getBoundingClientRect();
                 neinBtn.style.position = 'fixed';
@@ -147,20 +147,31 @@
                 neinBtn.style.width = rect.width + 'px';
             }
 
-            // Sicherheitsabstand zum Rand, damit er nie abgeschnitten wird
-            const padding = 30;
+            const rect = neinBtn.getBoundingClientRect();
+            const currentX = rect.left;
+            const currentY = rect.top;
+
+            // Kontrollierter Radius: Springt lokal um die aktuelle Position herum (nicht quer über den Bildschirm)
+            const offsetX = (Math.random() - 0.5) * 220; // Maximal ca. 110px nach links/rechts
+            const offsetY = (Math.random() - 0.5) * 160; // Maximal ca. 80px nach oben/unten
+
+            let newX = currentX + offsetX;
+            let newY = currentY + offsetY;
+
+            // Sicherheitsbegrenzung, damit er im sichtbaren Bereich bleibt
+            const padding = 20;
             const maxX = window.innerWidth - neinBtn.offsetWidth - padding;
             const maxY = window.innerHeight - neinBtn.offsetHeight - padding;
 
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+            newX = Math.max(padding, Math.min(newX, maxX));
+            newY = Math.max(padding, Math.min(newY, maxY));
 
-            neinBtn.style.left = randomX + 'px';
-            neinBtn.style.top = randomY + 'px';
+            neinBtn.style.left = newX + 'px';
+            neinBtn.style.top = newY + 'px';
             neinBtn.style.zIndex = '99999';
         }
 
-        // Lauscht auf Maus (PC) und Touch (Smartphone/Tablet)
+        // Unterstützt sowohl Maus (PC) als auch Touch-Gesten (Smartphones)
         neinBtn.addEventListener('mouseover', moveButton);
         neinBtn.addEventListener('touchstart', moveButton, { passive: false });
         neinBtn.addEventListener('click', moveButton);
@@ -168,3 +179,7 @@
         function showAccept() {
             document.getElementById('success-modal').style.display = 'flex';
         }
+    </script>
+
+</body>
+</html>
