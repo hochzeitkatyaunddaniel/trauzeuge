@@ -25,8 +25,8 @@
             position: relative;
             max-width: 550px;
             width: 100%;
-            border: 3px solid #d4af37;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            border: 3px solid #dfbc5b; /* Angepasster Goldton für den Rahmen */
+            box-shadow: 0 0 25px rgba(223, 188, 91, 0.35);
             background-color: #111;
         }
 
@@ -52,8 +52,9 @@
 
         .btn-option {
             background: rgba(15, 15, 15, 0.95);
-            color: #d4af37;
-            border: 2px solid #d4af37;
+            /* Exakter, warmer Goldton passend zum Plakat-Text */
+            color: #dfbc5b; 
+            border: 2px solid #dfbc5b;
             padding: 10px 15px;
             font-size: 0.95rem;
             font-weight: 900;
@@ -68,11 +69,13 @@
             user-select: none;
             -webkit-user-select: none;
             -webkit-tap-highlight-color: transparent;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
         }
 
         .btn-option:hover {
-            background: #d4af37;
+            background: #dfbc5b;
             color: #111111;
+            text-shadow: none;
         }
 
         #btn-nein {
@@ -90,7 +93,7 @@
                 box-shadow: none;
             }
             .overlay-buttons {
-                bottom: 6.5%; /* Exakter Sitz im schwarzen Bereich auf Handys */
+                bottom: 6.5%; 
                 width: 90%;
             }
             .btn-option {
@@ -120,11 +123,11 @@
 
         #success-modal h2 {
             font-size: 2.3rem;
-            color: #d4af37;
+            color: #dfbc5b;
             margin-bottom: 15px;
             letter-spacing: 2px;
             font-family: 'Cinzel Decorative', 'Cinzel', serif;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            text-shadow: 0 0 15px rgba(223, 188, 91, 0.5);
             text-transform: uppercase;
         }
 
@@ -140,7 +143,7 @@
 <body>
 
     <div class="poster-wrapper">
-        <!-- Dein finales Poster mit erweiterter Freifläche -->
+        <!-- Dein finales Poster -->
         <img src="poster.jfif" alt="Wirst du mein Trauzeuge?" class="poster-img">
 
         <!-- Die interaktiven Antwortmöglichkeiten -->
@@ -162,7 +165,6 @@
             if (e) e.preventDefault();
 
             let randomX, randomY;
-            // Kontrollierter Radius, der verhindert, dass der Button direkt unter dem Finger bleibt
             do {
                 randomX = (Math.random() - 0.5) * 260; 
                 randomY = (Math.random() - 0.5) * 140; 
