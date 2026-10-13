@@ -17,7 +17,7 @@
             min-height: 100vh;
             box-sizing: border-box;
             font-family: 'Cinzel', 'Times New Roman', serif;
-            overflow-x: hidden;
+            overflow: hidden; /* Verhindert Scrollbalken beim Springen */
         }
 
         .poster-wrapper {
@@ -35,10 +35,10 @@
             display: block;
         }
 
-        /* Die interaktiven Buttons, positioniert im erweiterten schwarzen Bereich unter der Frage */
+        /* Die interaktiven Buttons, positioniert im erweiterten schwarzen Bereich */
         .overlay-buttons {
             position: absolute;
-            bottom: 8%; /* Platziert sie exakt in den neuen schwarzen Bereich */
+            bottom: 8%; 
             left: 50%;
             transform: translateX(-50%);
             width: 80%;
@@ -65,6 +65,8 @@
             font-family: 'Cinzel', 'Times New Roman', serif;
             transition: background 0.2s, color 0.2s;
             text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .btn-option:hover {
@@ -73,7 +75,8 @@
         }
 
         #btn-nein {
-            transition: all 0.1s ease-out;
+            /* Wird dynamisch per JS gesteuert, sobald die Flucht beginnt */
+            transition: none; 
         }
 
         /* Modal nach erfolgreicher Bestätigung */
@@ -85,7 +88,7 @@
             width: 100vw;
             height: 100vh;
             background: rgba(0, 0, 0, 0.95);
-            z-index: 1000;
+            z-index: 10000;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -120,7 +123,7 @@
         <!-- Die Antwortmöglichkeiten als dynamische Buttons -->
         <div class="overlay-buttons">
             <button class="btn-option" id="btn-ja" onclick="showAccept()">☐ JA, ICH AKZEPTIERE</button>
-            <button class="btn-option" id="btn-nein" onmouseover="escapeButton()" ontouchstart="escapeButton()" onclick="escapeButton()">☐ ICH WÄHLE DIE SCHANDE (NEIN)</button>
+            <button class="btn-option" id="btn-nein">☐ ICH WÄHLE DIE SCHANDE (NEIN)</button>
         </div>
     </div>
 
@@ -132,24 +135,36 @@
     <script>
         const neinBtn = document.getElementById('btn-nein');
 
-        function escapeButton() {
-            const margin = 40;
-            const maxX = window.innerWidth - neinBtn.offsetWidth - margin;
-            const maxY = window.innerHeight - neinBtn.offsetHeight - margin;
+        function moveButton(e) {
+            if (e) e.preventDefault(); // Verhindert Standard-Klicks/Taps auf dem Nein-Button
 
-            const randomX = Math.max(margin, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(margin, Math.floor(Math.random() * maxY));
+            // Wenn der Button noch im normalen Layout war, fixieren wir seine anfängliche Größe und Position
+            if (neinBtn.style.position !== 'fixed') {
+                const rect = neinBtn.getBoundingClientRect();
+                neinBtn.style.position = 'fixed';
+                neinBtn.style.left = rect.left + 'px';
+                neinBtn.style.top = rect.top + 'px';
+                neinBtn.style.width = rect.width + 'px';
+            }
 
-            neinBtn.style.position = 'fixed';
+            // Sicherheitsabstand zum Rand, damit er nie abgeschnitten wird
+            const padding = 30;
+            const maxX = window.innerWidth - neinBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - neinBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
             neinBtn.style.left = randomX + 'px';
             neinBtn.style.top = randomY + 'px';
-            neinBtn.style.zIndex = '9999';
+            neinBtn.style.zIndex = '99999';
         }
+
+        // Lauscht auf Maus (PC) und Touch (Smartphone/Tablet)
+        neinBtn.addEventListener('mouseover', moveButton);
+        neinBtn.addEventListener('touchstart', moveButton, { passive: false });
+        neinBtn.addEventListener('click', moveButton);
 
         function showAccept() {
             document.getElementById('success-modal').style.display = 'flex';
         }
-    </script>
-
-</body>
-</html>
