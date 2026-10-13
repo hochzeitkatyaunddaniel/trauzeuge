@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ein Angebot, das du nicht ablehnen kannst</title>
     <style>
         /* Einbindung der passenden Plakat-Schriftart im Godfather-Stil */
@@ -11,22 +11,22 @@
         body {
             background-color: #0b0b0b;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
             font-family: 'Cinzel', 'Times New Roman', serif;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .poster-wrapper {
             position: relative;
-            max-width: 600px;
+            max-width: 550px;
             width: 100%;
             border: 3px solid #d4af37;
-            box-shadow: 0 0 35px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
             background-color: #111;
         }
 
@@ -36,16 +36,16 @@
             display: block;
         }
 
-        /* Die interaktiven Buttons im exakten Plakat-Stil */
+        /* Die interaktiven Buttons – perfekt platziert im erweiterten Bereich */
         .overlay-buttons {
             position: absolute;
-            bottom: 8%; 
+            bottom: 7%; 
             left: 50%;
             transform: translateX(-50%);
             width: 85%;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 10px;
             align-items: center;
             z-index: 10;
         }
@@ -54,20 +54,20 @@
             background: rgba(15, 15, 15, 0.95);
             color: #d4af37;
             border: 2px solid #d4af37;
-            padding: 12px 20px;
-            font-size: 1.05rem;
+            padding: 10px 15px;
+            font-size: 0.95rem;
             font-weight: 900;
             cursor: pointer;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             width: 100%;
-            max-width: 380px;
+            max-width: 340px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
-            /* Exakte, wuchtige Plakat-Schriftart */
             font-family: 'Cinzel Decorative', 'Cinzel', 'Times New Roman', serif;
             text-align: center;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-option:hover {
@@ -77,7 +77,27 @@
 
         #btn-nein {
             position: relative;
-            transition: transform 0.12s ease-out; /* Flüssige, aber dynamische Bewegung */
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Spezielle Anpassung für Smartphones (kleinere Bildschirme) */
+        @media (max-width: 600px) {
+            body {
+                padding: 0;
+            }
+            .poster-wrapper {
+                border: none;
+                box-shadow: none;
+            }
+            .overlay-buttons {
+                bottom: 6.5%; /* Exakter Sitz im schwarzen Bereich auf Handys */
+                width: 90%;
+            }
+            .btn-option {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                letter-spacing: 1px;
+            }
         }
 
         /* Modal nach erfolgreicher Bestätigung */
@@ -99,9 +119,9 @@
         }
 
         #success-modal h2 {
-            font-size: 2.8rem;
+            font-size: 2.3rem;
             color: #d4af37;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             letter-spacing: 2px;
             font-family: 'Cinzel Decorative', 'Cinzel', serif;
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
@@ -109,9 +129,9 @@
         }
 
         #success-modal p {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #f0f0f0;
-            max-width: 550px;
+            max-width: 500px;
             line-height: 1.6;
             font-family: 'Cinzel', serif;
         }
@@ -120,10 +140,10 @@
 <body>
 
     <div class="poster-wrapper">
-        <!-- Das finale Poster -->
+        <!-- Dein finales Poster mit erweiterter Freifläche -->
         <img src="poster.jfif" alt="Wirst du mein Trauzeuge?" class="poster-img">
 
-        <!-- Die Antwortmöglichkeiten -->
+        <!-- Die interaktiven Antwortmöglichkeiten -->
         <div class="overlay-buttons">
             <button class="btn-option" id="btn-ja" onclick="showAccept()">☐ JA, ICH AKZEPTIERE</button>
             <button class="btn-option" id="btn-nein">☐ ICH WÄHLE DIE SCHANDE (NEIN)</button>
@@ -142,16 +162,16 @@
             if (e) e.preventDefault();
 
             let randomX, randomY;
-            // Erzwingt einen Mindestabstand, damit der Button niemals direkt neben oder unter dem Cursor landet
+            // Kontrollierter Radius, der verhindert, dass der Button direkt unter dem Finger bleibt
             do {
-                randomX = (Math.random() - 0.5) * 340; // Größerer horizontaler Radius
-                randomY = (Math.random() - 0.5) * 200; // Größerer vertikaler Radius
-            } while (Math.abs(randomX) < 110 && Math.abs(randomY) < 70);
+                randomX = (Math.random() - 0.5) * 260; 
+                randomY = (Math.random() - 0.5) * 140; 
+            } while (Math.abs(randomX) < 80 && Math.abs(randomY) < 40);
 
             neinBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
-        // Lauscht auf Mauszeiger (PC) und Touch-Gesten (Smartphone)
+        // Lauscht auf Maus (PC) und Touch-Gesten (Smartphone)
         neinBtn.addEventListener('mouseenter', moveButton);
         neinBtn.addEventListener('touchstart', moveButton, { passive: false });
         neinBtn.addEventListener('click', moveButton);
